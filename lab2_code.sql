@@ -66,3 +66,12 @@ WHERE manufacturer IS NULL OR TRIM(manufacturer) = '';
 DELETE FROM scissors_orders
 WHERE country_of_origin <> 'Россия' 
    OR country_of_origin IS NULL;
+
+
+   -- 7. Посчитать количество наименований товара для каждого отечественного производителя
+SELECT 
+    manufacturer,
+    COUNT(DISTINCT name) AS products_count
+FROM products
+WHERE country_of_origin = 'Россия'
+GROUP BY manufacturer;
