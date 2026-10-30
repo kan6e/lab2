@@ -60,3 +60,9 @@ Select * FROM scissors_orders;
 UPDATE scissors_orders
 SET color = 'чёрный'
 WHERE manufacturer IS NULL OR TRIM(manufacturer) = '';
+
+
+-- 6. Удалить из созданной таблицы весь товар зарубежного производства
+DELETE FROM scissors_orders
+WHERE country_of_origin <> 'Россия' 
+   OR country_of_origin IS NULL;
