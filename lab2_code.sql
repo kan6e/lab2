@@ -10,7 +10,6 @@ WHERE LOWER(name) LIKE '%ножниц%'
   AND LOWER(color) LIKE '%оранжев%'; 
 
   -- 3. Создать таблицу, содержащую данные 2 запроса с указанием номеров заказов
-CREATE TABLE scissors_orders AS
 SELECT 
     oc.order_number,
     p.product_code,
@@ -21,6 +20,7 @@ SELECT
     p.country_of_origin,
     p.manufacturer,
     p.shelf_life
+INTO scissors_orders
 FROM products p
 JOIN order_contents oc ON p.product_code = oc.product_code
 WHERE LOWER(p.name) LIKE '%ножниц%'
