@@ -54,3 +54,9 @@ JOIN order_contents oc ON p.product_code = oc.product_code
 WHERE LOWER(p.name) LIKE '%канцтовар%' 
    OR LOWER(p.characteristics) LIKE '%канцтовар%';
 Select * FROM scissors_orders;
+
+
+-- 5. В созданной таблице для каждого товара, у которого не указан производитель, изменить цвет на черный
+UPDATE scissors_orders
+SET color = 'чёрный'
+WHERE manufacturer IS NULL OR TRIM(manufacturer) = '';
