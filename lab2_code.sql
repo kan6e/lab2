@@ -28,18 +28,8 @@ WHERE LOWER(p.name) LIKE '%ножниц%'
   AND LOWER(p.color) LIKE '%оранжев%';
 
 -- 4. Добавить в созданную таблицу номера заказов, содержащих любые канцтовары
-INSERT INTO scissors_orders (
-    order_number,
-    product_code,
-    name,
-    pieces_per_package,
-    color,
-    characteristics,
-    country_of_origin,
-    manufacturer,
-    shelf_life
-)
-SELECT 
+INSERT INTO scissors_orders
+SELECT DISTINCT
     oc.order_number,
     p.product_code,
     p.name,
@@ -51,9 +41,10 @@ SELECT
     p.shelf_life
 FROM products p
 JOIN order_contents oc ON p.product_code = oc.product_code
-WHERE LOWER(p.name) LIKE '%канцтовар%' 
-   OR LOWER(p.characteristics) LIKE '%канцтовар%';
-Select * FROM scissors_orders;
+WHERE (LOWER(p.name) LIKE '%канцтовар%' OR LOWER(p.characteristics) LIKE '%канцтовар%')
+  AND oc.order_number NOT IN (SELECT order_number FROM scissors_orders);
+
+SELECT * FROM scissors_orders;
 
 
 -- 5. В созданной таблице для каждого товара, у которого не указан производитель, изменить цвет на черный
