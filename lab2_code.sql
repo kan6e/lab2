@@ -28,7 +28,17 @@ WHERE LOWER(p.name) LIKE '%ножниц%'
   AND LOWER(p.color) LIKE '%оранжев%';
 
 -- 4. Добавить в созданную таблицу номера заказов, содержащих любые канцтовары
-INSERT INTO scissors_orders
+INSERT INTO scissors_orders (
+    order_number,
+    product_code,
+    name,
+    pieces_per_package,
+    color,
+    characteristics,
+    country_of_origin,
+    manufacturer,
+    shelf_life
+)
 SELECT DISTINCT
     oc.order_number,
     p.product_code,
@@ -42,7 +52,10 @@ SELECT DISTINCT
 FROM products p
 JOIN order_contents oc ON p.product_code = oc.product_code
 WHERE (LOWER(p.name) LIKE '%канцтовар%' OR LOWER(p.characteristics) LIKE '%канцтовар%')
-  AND oc.order_number NOT IN (SELECT order_number FROM scissors_orders);
+  AND (oc.order_number, p.product_code) NOT IN (
+      SELECT order_number, product_code 
+      FROM scissors_orders
+  );
 
 SELECT * FROM scissors_orders;
 
